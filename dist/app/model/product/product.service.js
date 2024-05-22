@@ -15,6 +15,12 @@ const createProductIntoDb = (product) => __awaiter(void 0, void 0, void 0, funct
     const result = yield product_model_1.ProductModel.create(product);
     return result;
 });
+// get Product from db 
+const getAllProductsFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.find();
+    return result;
+});
 exports.ProductServices = {
     createProductIntoDb,
+    getAllProductsFromDb,
 };

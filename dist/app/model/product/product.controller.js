@@ -8,31 +8,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductControllers = void 0;
 const product_service_1 = require("./product.service");
-//  creat new student 
+const product_validation_1 = __importDefault(require("./product.validation"));
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // creating Schema validation using Zod
+        // Extract product data from request body
         const { product: productData } = req.body;
-        // controller calling 
-        const result = yield product_service_1.ProductServices.createProductIntoDb(productData);
-        // respond send 
+        // Validate product data using Joi schema
+        const { error, value } = product_validation_1.default.validate(productData);
+        // If validation fails, send detailed error response
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: 'Validation failed',
+                errors: error.details.map((detail) => {
+                    var _a;
+                    return ({
+                        field: ((_a = detail.context) === null || _a === void 0 ? void 0 : _a.key) || 'unknown',
+                        message: detail.message
+                    });
+                })
+            });
+        }
+        // Call controller to create product
+        const result = yield product_service_1.ProductServices.createProductIntoDb(value);
+        // Respond with success message and created product data
+        res.status(200).json({
+            success: true,
+            message: 'Product created successfully',
+            data: result
+        });
+    }
+    catch (error) {
+        // Send generic error message in case of unexpected errors
+        res.status(500).json({
+            success: false,
+            message: error.message || 'An error occurred',
+            error: error
+        });
+    }
+});
+// get All Products
+const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_service_1.ProductServices.getAllProductsFromDb();
         res.status(200).json({
             succuess: true,
-            message: "product create successfully",
+            message: "Product is retrived  successfully",
             data: result
         });
     }
     catch (error) {
         res.status(500).json({
-            succuess: true,
-            message: error.message || "Typical mistake",
+            succuess: false,
+            message: error.message || "something went wrong",
             error: error
         });
     }
 });
 exports.ProductControllers = {
     createProduct,
+    getAllProducts,
 };

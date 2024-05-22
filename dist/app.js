@@ -11,7 +11,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // application Routes 
-app.use('api', product_route_1.productRoutes);
+app.use('/api', product_route_1.productRoutes);
 // app.use('/api/orders', orderRoutes)
 // app.get('/',);
 exports.default = app;
