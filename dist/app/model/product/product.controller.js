@@ -53,13 +53,13 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
-// get All Products
+//  Retrieve a List of All Products
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_service_1.ProductServices.getAllProductsFromDb();
         res.status(200).json({
             succuess: true,
-            message: "Product is retrived  successfully",
+            message: "Products fetched successfully!",
             data: result
         });
     }
@@ -71,7 +71,36 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
+// Retrieve a Specific Product by ID
+const getProductId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield product_service_1.ProductServices.getProductIdFromDb(productId);
+        res.status(200).json({
+            succuess: true,
+            message: "Product fetched successfully!",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+//  Update Product Information
+const updatedProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const productId = req.params.id;
+        const productData = req.body;
+        const updatedProduct = yield product_service_1.ProductServices.updateProductFromDb(productId, productData);
+        res.status(200).json(updatedProduct);
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
 exports.ProductControllers = {
     createProduct,
     getAllProducts,
+    getProductId,
+    updatedProduct,
 };

@@ -1,5 +1,6 @@
 import { ProductModel } from "./product.model";
 import { Tproduct } from "./product.type";
+import productJoiSchema from "./product.validation";
 
 
 
@@ -14,8 +15,26 @@ const getAllProductsFromDb = async ()=>{
     return result ;
 }
 
+// Retrieve a Specific Product by ID
+
+const getProductIdFromDb = async (_id:string)=>{
+    const result = await ProductModel.findOne({_id});
+    return result ;
+}
+
+// Update Product Information
+const updateProductFromDb = async (productId: string, productData:Partial<Tproduct>) => {
+
+    const result = await ProductModel.findByIdAndUpdate(productId, productData, { new: true});
+    if (!result) {
+        throw new Error('Product not found');
+    }
+    return result;
+}
 
 export const ProductServices = {
     createProductIntoDb,
     getAllProductsFromDb,
+    getProductIdFromDb,
+    updateProductFromDb,
 };

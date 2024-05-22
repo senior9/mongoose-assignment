@@ -43,17 +43,17 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 
-// get All Products
+//  Retrieve a List of All Products
 
 const getAllProducts = async (req: Request, res: Response) => {
     try {
         const result = await ProductServices.getAllProductsFromDb();
         res.status(200).json({
             succuess: true,
-            message: "Product is retrived  successfully",
+            message: "Products fetched successfully!",
             data: result
         })
-    } catch (error : any) {
+    } catch (error: any) {
         res.status(500).json({
             succuess: false,
             message: error.message || "something went wrong",
@@ -61,11 +61,48 @@ const getAllProducts = async (req: Request, res: Response) => {
         })
     }
 }
+// Retrieve a Specific Product by ID
+const getProductId = async (req: Request, res: Response) => {
 
+    try {
+        const { productId } = req.params;
+        const result = await ProductServices.getProductIdFromDb(productId);
+        res.status(200).json({
+            succuess: true,
+            message: "Product fetched successfully!",
+            data: result
+        })
 
+    } catch (error) {
+        console.log(error)
+    }
+}
 
+// Update Product Information
+const updatedProduct = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+        const productData = req.body;
+
+        const result = await ProductServices.updateProductFromDb(productId, productData);
+
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully!",
+            data: result
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message || "something went wrong",
+            error: error
+        })
+    }
+}
 
 export const ProductControllers = {
     createProduct,
     getAllProducts,
+    getProductId,
+    updatedProduct,
 }

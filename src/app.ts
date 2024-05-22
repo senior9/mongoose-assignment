@@ -8,7 +8,7 @@ const app: Application = express();
 // Parser
 app.use(express.json());
 app.use(cors());
-
+app.use(express.urlencoded({ extended: true }));
 // application Routes 
 
 app.use('/api', productRoutes)
