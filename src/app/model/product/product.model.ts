@@ -60,8 +60,24 @@ const productSchema = new Schema<Tproduct>({
     inventory:{
         type:inventorySchema,
         required:true
+    },
+    isDelete:{
+        type:Boolean,
+        default:false
     }
+})
+
+
+// Query middleware 
+productSchema.pre('find',function(next){
+    this.find({isDelete:{$ne:true}});
+    next();
+})
+productSchema.pre('findOne',function(next){
+    this.find({isDelete:{$ne:true}});
+    next();
 })
 
 // Create Product Model 
 export const ProductModel = model<Tproduct>('ProductModel',productSchema);
+

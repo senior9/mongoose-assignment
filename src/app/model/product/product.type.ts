@@ -16,4 +16,5 @@ export type Tproduct = {
     tags: string[];
     variants: Tvariant[];
     inventory: Tinventory;
+    isDelete:boolean;
 }

@@ -32,9 +32,17 @@ const updateProductFromDb = async (productId: string, productData:Partial<Tprodu
     return result;
 }
 
+// delete Product 
+
+const deleteProducFromDb = async (_id:string)=>{
+    const result = await ProductModel.updateOne({_id},{isDelete:true});
+    return result ;
+}
+
 export const ProductServices = {
     createProductIntoDb,
     getAllProductsFromDb,
     getProductIdFromDb,
     updateProductFromDb,
+    deleteProducFromDb,
 };
