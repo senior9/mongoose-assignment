@@ -1,6 +1,6 @@
 
 import { ProductModel } from "./product.model";
-import { Tproduct } from "./product.type";
+import { Tproduct, TproductUpdate } from "./product.type";
 
 
 
@@ -23,9 +23,9 @@ const getProductIdFromDb = async (_id:string)=>{
 }
 
 // Update Product Information
-const updateProductFromDb = async (productId: string, productData:Partial<Tproduct>) => {
+const updateProductFromDb = async (productId: string, productData:Partial<TproductUpdate>) => {
 
-    const result = await ProductModel.findByIdAndUpdate(productId, productData, { new: true});
+    const result = await ProductModel.findByIdAndUpdate(productId, {$set:productData}, { new: true});
     if (!result) {
         throw new Error('Product not found');
     }

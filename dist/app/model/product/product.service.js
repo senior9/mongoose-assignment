@@ -38,25 +38,9 @@ const deleteProducFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield product_model_1.ProductModel.updateOne({ _id }, { isDelete: true });
     return result;
 });
-const searchProducFromDb = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
-    let searchConditions = {};
-    if (searchTerm) {
-        const regex = new RegExp(searchTerm, "i");
-        searchConditions = {
-            $or: [
-                { name: { $regex: regex } },
-                { description: { $regex: regex } },
-                { category: { $regex: regex } },
-                { tags: { $in: [regex] } }
-            ],
-            isDelete: { $ne: true }
-        };
-    }
-    else {
-        searchConditions = { isDelete: { $ne: true } };
-    }
-    console.log('Search Conditions:', searchConditions);
-    const result = yield product_model_1.ProductModel.find(searchConditions);
+// Retrieve Products by Category from DB
+const getProductsByCategoryFromDb = (name) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.find({ name: name });
     return result;
 });
 exports.ProductServices = {
@@ -65,5 +49,5 @@ exports.ProductServices = {
     getProductIdFromDb,
     updateProductFromDb,
     deleteProducFromDb,
-    searchProducFromDb,
+    getProductsByCategoryFromDb,
 };

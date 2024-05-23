@@ -9,7 +9,6 @@ const product_controller_1 = require("./product.controller");
 const router = express_1.default.Router();
 router.post('/products', product_controller_1.ProductControllers.createProduct);
 router.get('/products', product_controller_1.ProductControllers.getAllProducts);
-router.get('/products', product_controller_1.ProductControllers.serachProduct);
 router.get('/products/:productId', product_controller_1.ProductControllers.getProductId);
 router.put('/products/:productId', product_controller_1.ProductControllers.updatedProduct);
 router.delete('/products/:productId', product_controller_1.ProductControllers.deleteProduct);

@@ -18,3 +18,8 @@ export type Tproduct = {
     inventory: Tinventory;
     isDelete:boolean;
 }
+
+// Define a nested type for updating inventory properties
+export type TproductUpdate = Partial<Omit<Tproduct, 'inventory'>> & {
+    inventory?: Partial<Tinventory>;
+};

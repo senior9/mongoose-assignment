@@ -56,17 +56,32 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 //  Retrieve a List of All Products
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_service_1.ProductServices.getAllProductsFromDb();
-        res.status(200).json({
-            succuess: true,
-            message: "Products fetched successfully!",
-            data: result
-        });
+        // Check if there are any query parameters
+        if (Object.keys(req.query).length > 0) {
+            // If query parameters exist, use them to filter products
+            const name = req.query.searchTerm;
+            console.log(name);
+            const result = yield product_service_1.ProductServices.getProductsByCategoryFromDb(name);
+            return res.status(200).json({
+                success: true,
+                message: "Products fetched successfully!",
+                data: result
+            });
+        }
+        else {
+            // If no query parameters, return all products
+            const result = yield product_service_1.ProductServices.getAllProductsFromDb();
+            return res.status(200).json({
+                success: true,
+                message: "All products fetched successfully!",
+                data: result
+            });
+        }
     }
     catch (error) {
-        res.status(500).json({
-            succuess: false,
-            message: error.message || "something went wrong",
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Something went wrong",
             error: error
         });
     }
@@ -121,30 +136,10 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         console.log(error);
     }
 });
-const serachProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const searchTerm = req.query.searchTerm;
-        console.log('Search Term:', searchTerm);
-        const result = yield product_service_1.ProductServices.searchProducFromDb(searchTerm);
-        console.log(result);
-        res.status(200).json({
-            success: true,
-            message: searchTerm ? `Products matching search term '${searchTerm}' fetched successfully!` : "All products fetched successfully!",
-            data: result
-        });
-    }
-    catch (error) {
-        if (!error.statusCode) {
-            error.statusCode = 500;
-        }
-        next(error);
-    }
-});
 exports.ProductControllers = {
     createProduct,
     getAllProducts,
     getProductId,
     updatedProduct,
     deleteProduct,
-    serachProduct,
 };
