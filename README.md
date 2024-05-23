@@ -66,4 +66,4 @@ To start the application in development mode:
 npm run start:dev
 ```
 4. **Postman Collection**
-To test the API endpoints, you can use Postman. Import the following Postman collection:
+To test the API endpoints, you can use Postman.
