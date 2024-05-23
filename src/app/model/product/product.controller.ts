@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { ProductServices } from "./product.service";
 import productJoiSchema from "./product.validation";
 
@@ -51,8 +51,7 @@ const getAllProducts = async (req: Request, res: Response) => {
         // Check if there are any query parameters
         if (Object.keys(req.query).length > 0) {
             // If query parameters exist, use them to filter products
-            // For example, let's assume you have a query parameter named 'category'
-            const  name  = req.query.searchTerm;
+            const  name:any  = req.query.searchTerm;
             console.log(name);
             const result = await ProductServices.getProductsByCategoryFromDb(name);
             return res.status(200).json({
