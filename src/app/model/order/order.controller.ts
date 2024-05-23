@@ -61,7 +61,12 @@ const createOrder = async (req: Request, res: Response) => {
         const updateQuantity = product.inventory.quantity - value.quantity;
 
         //  inStock status
-        const inStock = updateQuantity > 0;
+        let inStock = updateQuantity > 0;
+
+         // Set inStock to false if the inventory quantity reaches zero
+         if (updateQuantity === 0) {
+            inStock = false;
+        }
 
         //update DataBAse 
         await ProductServices.updateProductFromDb(value.productId,{
