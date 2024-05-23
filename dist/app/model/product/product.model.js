@@ -55,7 +55,20 @@ const productSchema = new mongoose_1.Schema({
     inventory: {
         type: inventorySchema,
         required: true
+    },
+    isDelete: {
+        type: Boolean,
+        default: false
     }
+});
+// Query middleware 
+productSchema.pre('find', function (next) {
+    this.find({ isDelete: { $ne: true } });
+    next();
+});
+productSchema.pre('findOne', function (next) {
+    this.find({ isDelete: { $ne: true } });
+    next();
 });
 // Create Product Model 
 exports.ProductModel = (0, mongoose_1.model)('ProductModel', productSchema);

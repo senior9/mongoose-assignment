@@ -8,13 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductServices = void 0;
 const product_model_1 = require("./product.model");
-const product_validation_1 = __importDefault(require("./product.validation"));
 const createProductIntoDb = (product) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.ProductModel.create(product);
     return result;
@@ -29,20 +25,45 @@ const getProductIdFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield product_model_1.ProductModel.findOne({ _id });
     return result;
 });
-const updateProductFromDb = (productId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const { error } = product_validation_1.default.validate(update);
-    if (error) {
-        throw new Error(error.details[0].message);
-    }
-    const updatedProduct = yield product_model_1.ProductModel.findByIdAndUpdate(productId, update, { new: true, runValidators: true });
-    if (!updatedProduct) {
+// Update Product Information
+const updateProductFromDb = (productId, productData) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.findByIdAndUpdate(productId, productData, { new: true });
+    if (!result) {
         throw new Error('Product not found');
     }
-    return updatedProduct;
+    return result;
+});
+// delete Product 
+const deleteProducFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.ProductModel.updateOne({ _id }, { isDelete: true });
+    return result;
+});
+const searchProducFromDb = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    let searchConditions = {};
+    if (searchTerm) {
+        const regex = new RegExp(searchTerm, "i");
+        searchConditions = {
+            $or: [
+                { name: { $regex: regex } },
+                { description: { $regex: regex } },
+                { category: { $regex: regex } },
+                { tags: { $in: [regex] } }
+            ],
+            isDelete: { $ne: true }
+        };
+    }
+    else {
+        searchConditions = { isDelete: { $ne: true } };
+    }
+    console.log('Search Conditions:', searchConditions);
+    const result = yield product_model_1.ProductModel.find(searchConditions);
+    return result;
 });
 exports.ProductServices = {
     createProductIntoDb,
     getAllProductsFromDb,
     getProductIdFromDb,
     updateProductFromDb,
+    deleteProducFromDb,
+    searchProducFromDb,
 };

@@ -14,5 +14,8 @@ app.use(express_1.default.urlencoded({ extended: true }));
 // application Routes 
 app.use('/api', product_route_1.productRoutes);
 // app.use('/api/orders', orderRoutes)
-// app.get('/',);
+// 404 handler for unknown routes
+app.use((req, res, next) => {
+    res.status(404).json({ message: 'Route not found' });
+});
 exports.default = app;

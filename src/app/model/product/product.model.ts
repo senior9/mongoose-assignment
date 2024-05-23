@@ -78,6 +78,8 @@ productSchema.pre('findOne',function(next){
     next();
 })
 
+
+
 // Create Product Model 
 export const ProductModel = model<Tproduct>('ProductModel',productSchema);
 

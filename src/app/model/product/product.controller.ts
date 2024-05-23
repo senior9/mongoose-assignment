@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ProductServices } from "./product.service";
 import productJoiSchema from "./product.validation";
+
 
 
 const createProduct = async (req: Request, res: Response) => {
@@ -47,20 +48,36 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProducts = async (req: Request, res: Response) => {
     try {
-        const result = await ProductServices.getAllProductsFromDb();
-        res.status(200).json({
-            succuess: true,
-            message: "Products fetched successfully!",
-            data: result
-        })
+        // Check if there are any query parameters
+        if (Object.keys(req.query).length > 0) {
+            // If query parameters exist, use them to filter products
+            // For example, let's assume you have a query parameter named 'category'
+            const  name  = req.query.searchTerm;
+            console.log(name);
+            const result = await ProductServices.getProductsByCategoryFromDb(name);
+            return res.status(200).json({
+                success: true,
+                message: "Products fetched successfully!",
+                data: result
+            });
+        } else {
+            // If no query parameters, return all products
+            const result = await ProductServices.getAllProductsFromDb();
+            return res.status(200).json({
+                success: true,
+                message: "All products fetched successfully!",
+                data: result
+            });
+        }
     } catch (error: any) {
-        res.status(500).json({
-            succuess: false,
-            message: error.message || "something went wrong",
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Something went wrong",
             error: error
-        })
+        });
     }
 }
+
 // Retrieve a Specific Product by ID
 const getProductId = async (req: Request, res: Response) => {
 
@@ -118,10 +135,14 @@ const deleteProduct = async (req: Request, res: Response) => {
     }
 }
 
+
+
+
+
 export const ProductControllers = {
     createProduct,
     getAllProducts,
     getProductId,
     updatedProduct,
-    deleteProduct
+    deleteProduct,
 }

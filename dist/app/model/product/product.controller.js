@@ -86,16 +86,58 @@ const getProductId = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         console.log(error);
     }
 });
-//  Update Product Information
+// Update Product Information
 const updatedProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const productId = req.params.id;
+        const { productId } = req.params;
         const productData = req.body;
-        const updatedProduct = yield product_service_1.ProductServices.updateProductFromDb(productId, productData);
-        res.status(200).json(updatedProduct);
+        const result = yield product_service_1.ProductServices.updateProductFromDb(productId, productData);
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully!",
+            data: result
+        });
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(500).json({
+            success: false,
+            message: error.message || "something went wrong",
+            error: error
+        });
+    }
+});
+// Delete Product 
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield product_service_1.ProductServices.deleteProducFromDb(productId);
+        res.status(200).json({
+            succuess: true,
+            message: "Product Deleted successfully!",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+const serachProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const searchTerm = req.query.searchTerm;
+        console.log('Search Term:', searchTerm);
+        const result = yield product_service_1.ProductServices.searchProducFromDb(searchTerm);
+        console.log(result);
+        res.status(200).json({
+            success: true,
+            message: searchTerm ? `Products matching search term '${searchTerm}' fetched successfully!` : "All products fetched successfully!",
+            data: result
+        });
+    }
+    catch (error) {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
     }
 });
 exports.ProductControllers = {
@@ -103,4 +145,6 @@ exports.ProductControllers = {
     getAllProducts,
     getProductId,
     updatedProduct,
+    deleteProduct,
+    serachProduct,
 };

@@ -1,6 +1,6 @@
+
 import { ProductModel } from "./product.model";
 import { Tproduct } from "./product.type";
-import productJoiSchema from "./product.validation";
 
 
 
@@ -39,10 +39,18 @@ const deleteProducFromDb = async (_id:string)=>{
     return result ;
 }
 
+
+// Retrieve Products by Category from DB
+const getProductsByCategoryFromDb = async (name: string) => {
+    const result = await ProductModel.find({ name: name });
+    return result;
+}
+
 export const ProductServices = {
     createProductIntoDb,
     getAllProductsFromDb,
     getProductIdFromDb,
     updateProductFromDb,
     deleteProducFromDb,
+    getProductsByCategoryFromDb,
 };

@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from "cors";
 import { productRoutes } from './app/model/product/product.route';
 
@@ -13,7 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', productRoutes)
 // app.use('/api/orders', orderRoutes)
-
-// app.get('/',);
+// 404 handler for unknown routes
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.status(404).json({ message: 'Route not found' });
+});
 
 export default app;
