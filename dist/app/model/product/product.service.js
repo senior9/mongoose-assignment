@@ -27,7 +27,7 @@ const getProductIdFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* 
 });
 // Update Product Information
 const updateProductFromDb = (productId, productData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.ProductModel.findByIdAndUpdate(productId, productData, { new: true });
+    const result = yield product_model_1.ProductModel.findByIdAndUpdate(productId, { $set: productData }, { new: true });
     if (!result) {
         throw new Error('Product not found');
     }

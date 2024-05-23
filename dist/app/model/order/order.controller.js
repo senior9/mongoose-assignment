@@ -63,10 +63,17 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         //Update quantiy
         const updateQuantity = product.inventory.quantity - value.quantity;
         //  inStock status
-        const inStock = updateQuantity > 0;
+        let inStock = updateQuantity > 0;
+        // Set inStock to false if the inventory quantity reaches zero
+        if (updateQuantity === 0) {
+            inStock = false;
+        }
         //update DataBAse 
         yield product_service_1.ProductServices.updateProductFromDb(value.productId, {
-            inventory: Object.assign(Object.assign({}, product.inventory), { quantity: updateQuantity, inStock })
+            inventory: {
+                quantity: updateQuantity,
+                inStock: inStock
+            }
         });
         // Call controller to create Order
         const result = yield order_service_1.OrderServices.createOrderIntoDb(value);
