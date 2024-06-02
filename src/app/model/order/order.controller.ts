@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 const createOrder = async (req: Request, res: Response) => {
     try {
         // Extract order data from request body
-        const { order: orderData } = req.body;
+        const  orderData  = req.body;
 
         // Validate product data using Joi schema
         const { error, value } = orderValidationSchema.validate(orderData);
@@ -44,7 +44,7 @@ const createOrder = async (req: Request, res: Response) => {
         if (!product) { //validation
             return res.status(404).json({
                 success: false,
-                message: "Product not found"
+                message: "order not found"
             });
         }
 
@@ -53,7 +53,7 @@ const createOrder = async (req: Request, res: Response) => {
         if (value.quantity > product.inventory.quantity) {
             return res.status(400).json({
                 success: false,
-                message: "Product out of stock "
+                message: "Insufficient quantity available in inventory "
             });
         }
 
@@ -120,7 +120,7 @@ const getAllOrders = async (req: Request, res: Response) => {
 
             // If query parameters exist, use them to filter products
             const email: any = req.query.email;
-            console.log(email);
+            // console.log(email);
             const result = await OrderServices.getOrdersByCategoryFromDb(email);
             if (result.length === 0) {
                 return res.status(404).json({

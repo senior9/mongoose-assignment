@@ -81,5 +81,5 @@ productSchema.pre('findOne',function(next){
 
 
 // Create Product Model 
-export const ProductModel = model<Tproduct>('ProductModel',productSchema);
+export const ProductModel = model<Tproduct>('products',productSchema);
 

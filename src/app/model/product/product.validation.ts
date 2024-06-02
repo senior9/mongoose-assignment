@@ -41,7 +41,7 @@ const productJoiSchema = Joi.object({
     inventory: inventoryJoiSchema.required().messages({
         'any.required': 'Inventory is required'
     }),
-    isDelete: Joi.boolean().required()
+    isDelete: Joi.boolean()
 });
 
 export default productJoiSchema;

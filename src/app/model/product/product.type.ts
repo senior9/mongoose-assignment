@@ -16,7 +16,7 @@ export type Tproduct = {
     tags: string[];
     variants: Tvariant[];
     inventory: Tinventory;
-    isDelete:boolean;
+    isDelete ?:boolean;
 }
 
 // Define a nested type for updating inventory properties

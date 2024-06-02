@@ -71,4 +71,4 @@ productSchema.pre('findOne', function (next) {
     next();
 });
 // Create Product Model 
-exports.ProductModel = (0, mongoose_1.model)('ProductModel', productSchema);
+exports.ProductModel = (0, mongoose_1.model)('products', productSchema);

@@ -10,10 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductServices = void 0;
+const mongoose_1 = require("mongoose");
 const product_model_1 = require("./product.model");
-const createProductIntoDb = (product) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.ProductModel.create(product);
-    return result;
+const createProductIntoDb = (products) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(product);
+    try {
+        const result = yield product_model_1.ProductModel.create(products);
+        return { success: true, data: result };
+    }
+    catch (error) {
+        return { success: false, message: error.message, error };
+    }
 });
 // get Product from db 
 const getAllProductsFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,7 +36,7 @@ const getProductIdFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* 
 const updateProductFromDb = (productId, productData) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_model_1.ProductModel.findByIdAndUpdate(productId, { $set: productData }, { new: true });
     if (!result) {
-        throw new Error('Product not found');
+        throw new mongoose_1.Error('Product not found');
     }
     return result;
 });

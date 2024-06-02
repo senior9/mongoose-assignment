@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import { ProductServices } from "./product.service";
 import productJoiSchema from "./product.validation";
+import { Tproduct } from "./product.type";
 
 
 
 const createProduct = async (req: Request, res: Response) => {
     try {
         // Extract product data from request body
-        const { product: productData } = req.body;
+        const  productData:Tproduct  = req.body;
+        console.log("body" ,req.body);
 
         // Validate product data using Joi schema
         const { error, value } = productJoiSchema.validate(productData);
@@ -24,8 +26,13 @@ const createProduct = async (req: Request, res: Response) => {
             });
         }
 
+        // check inventory and set isdelete property 
+        if (value.inventory.quantity > 0) {
+            value.isDelete = false;
+        } 
+
         // Call controller to create product
-        const result = await ProductServices.createProductIntoDb(value);
+        const result = await ProductServices.createProductIntoDb(productData);
 
         // Respond with success message and created product data
         res.status(200).json({
@@ -52,7 +59,7 @@ const getAllProducts = async (req: Request, res: Response) => {
         if (Object.keys(req.query).length > 0) {
             // If query parameters exist, use them to filter products
             const  name:any  = req.query.searchTerm;
-            console.log(name);
+            // console.log(name);
             const result = await ProductServices.getProductsByCategoryFromDb(name);
             return res.status(200).json({
                 success: true,

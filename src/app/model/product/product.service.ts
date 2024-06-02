@@ -1,12 +1,19 @@
 
+import { Error } from "mongoose";
 import { ProductModel } from "./product.model";
 import { Tproduct, TproductUpdate } from "./product.type";
 
 
 
-const createProductIntoDb = async (product: Tproduct) => {
-    const result = await ProductModel.create(product);
-    return result;
+const createProductIntoDb = async (products:Tproduct) => {
+    // console.log(product);
+    try {
+        const result = await ProductModel.create(products);
+        return { success: true, data: result };
+    } catch (error:any) {
+        return { success: false, message: error.message, error };
+    }
+    
 }
 
 // get Product from db 
@@ -42,7 +49,7 @@ const deleteProducFromDb = async (_id:string)=>{
 
 // Retrieve Products by Category from DB
 const getProductsByCategoryFromDb = async (name: string) => {
-    const result = await ProductModel.find({ name: name });
+    const result = await ProductModel.find({ name: { $regex: new RegExp(name, 'i') } });
     return result;
 }
 

@@ -18,7 +18,8 @@ const product_validation_1 = __importDefault(require("./product.validation"));
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Extract product data from request body
-        const { product: productData } = req.body;
+        const productData = req.body;
+        console.log("body", req.body);
         // Validate product data using Joi schema
         const { error, value } = product_validation_1.default.validate(productData);
         // If validation fails, send detailed error response
@@ -35,8 +36,12 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 })
             });
         }
+        // check inventory and set isdelete property 
+        if (value.inventory.quantity > 0) {
+            value.isDelete = false;
+        }
         // Call controller to create product
-        const result = yield product_service_1.ProductServices.createProductIntoDb(value);
+        const result = yield product_service_1.ProductServices.createProductIntoDb(productData);
         // Respond with success message and created product data
         res.status(200).json({
             success: true,
@@ -60,7 +65,7 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (Object.keys(req.query).length > 0) {
             // If query parameters exist, use them to filter products
             const name = req.query.searchTerm;
-            console.log(name);
+            // console.log(name);
             const result = yield product_service_1.ProductServices.getProductsByCategoryFromDb(name);
             return res.status(200).json({
                 success: true,
