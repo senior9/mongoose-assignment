@@ -21,7 +21,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Extract order data from request body
-        const { order: orderData } = req.body;
+        const orderData = req.body;
         // Validate product data using Joi schema
         const { error, value } = order_validation_1.default.validate(orderData);
         // If validation fails, send detailed error response
@@ -50,14 +50,14 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (!product) { //validation
             return res.status(404).json({
                 success: false,
-                message: "Product not found"
+                message: "order not found"
             });
         }
         // check the order quantity excedd from aviable quantity 
         if (value.quantity > product.inventory.quantity) {
             return res.status(400).json({
                 success: false,
-                message: "Product out of stock "
+                message: "Insufficient quantity available in inventory "
             });
         }
         //Update quantiy
@@ -110,7 +110,7 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             }
             // If query parameters exist, use them to filter products
             const email = req.query.email;
-            console.log(email);
+            // console.log(email);
             const result = yield order_service_1.OrderServices.getOrdersByCategoryFromDb(email);
             if (result.length === 0) {
                 return res.status(404).json({

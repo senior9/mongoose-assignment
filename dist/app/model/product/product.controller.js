@@ -69,7 +69,7 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
             const result = yield product_service_1.ProductServices.getProductsByCategoryFromDb(name);
             return res.status(200).json({
                 success: true,
-                message: "Products fetched successfully!",
+                message: ` Products fetched ${name} successfully!`,
                 data: result
             });
         }

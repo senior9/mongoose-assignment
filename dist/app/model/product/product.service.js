@@ -47,7 +47,7 @@ const deleteProducFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* 
 });
 // Retrieve Products by Category from DB
 const getProductsByCategoryFromDb = (name) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.ProductModel.find({ name: name });
+    const result = yield product_model_1.ProductModel.find({ name: { $regex: new RegExp(name, 'i') } });
     return result;
 });
 exports.ProductServices = {
