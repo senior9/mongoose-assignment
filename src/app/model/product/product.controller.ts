@@ -38,7 +38,7 @@ const createProduct = async (req: Request, res: Response) => {
         res.status(200).json({
             success: true,
             message: 'Product created successfully',
-            data: result
+            data: result.data
         });
     } catch (error: any) {
         // Send generic error message in case of unexpected errors
@@ -106,6 +106,7 @@ const updatedProduct = async (req: Request, res: Response) => {
     try {
         const { productId } = req.params;
         const productData = req.body;
+        console.log(productData);
 
         const result = await ProductServices.updateProductFromDb(productId, productData);
 

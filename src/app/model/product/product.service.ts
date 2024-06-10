@@ -32,10 +32,14 @@ const getProductIdFromDb = async (_id:string)=>{
 // Update Product Information
 const updateProductFromDb = async (productId: string, productData:Partial<TproductUpdate>) => {
 
-    const result = await ProductModel.findByIdAndUpdate(productId, {$set:productData}, { new: true});
+
+    console.log('Update data:', productData); // Log the data to be updated
+    console.log('Product Id  :', productId); // Log the data to be updated
+    const result = await ProductModel.findByIdAndUpdate(productId, {$set:productData}, { new: true, runValidators: true});
     if (!result) {
         throw new Error('Product not found');
     }
+    console.log('Update result:', result); // Log the result of the update
     return result;
 }
 

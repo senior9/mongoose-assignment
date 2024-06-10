@@ -46,7 +46,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(200).json({
             success: true,
             message: 'Product created successfully',
-            data: result
+            data: result.data
         });
     }
     catch (error) {
@@ -111,6 +111,7 @@ const updatedProduct = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const { productId } = req.params;
         const productData = req.body;
+        console.log(productData);
         const result = yield product_service_1.ProductServices.updateProductFromDb(productId, productData);
         res.status(200).json({
             success: true,

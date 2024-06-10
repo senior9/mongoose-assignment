@@ -34,10 +34,13 @@ const getProductIdFromDb = (_id) => __awaiter(void 0, void 0, void 0, function* 
 });
 // Update Product Information
 const updateProductFromDb = (productId, productData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.ProductModel.findByIdAndUpdate(productId, { $set: productData }, { new: true });
+    console.log('Update data:', productData); // Log the data to be updated
+    console.log('Product Id  :', productId); // Log the data to be updated
+    const result = yield product_model_1.ProductModel.findByIdAndUpdate(productId, { $set: productData }, { new: true, runValidators: true });
     if (!result) {
         throw new mongoose_1.Error('Product not found');
     }
+    console.log('Update result:', result); // Log the result of the update
     return result;
 });
 // delete Product 
