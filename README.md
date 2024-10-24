@@ -14,6 +14,7 @@ This is an E-commerce API built with Express, TypeScript, and MongoDB using Mong
 - [API Endpoints](#api-endpoints)
 - [Validation](#validation)
 - [Error Handling](#error-handling)
+- [Api Endpoint](#api-endpoint)
 
 ## Features
 
