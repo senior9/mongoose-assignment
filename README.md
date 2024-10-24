@@ -67,7 +67,6 @@ npm run start:dev
 ```
 ## Postman Collection
 To test the API endpoints, you can use Postman.
-4. ** Web browser:**
 ### API EndPoint:
 
 a) **Retrieve a List of All Products:**
