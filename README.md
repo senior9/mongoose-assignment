@@ -67,3 +67,31 @@ npm run start:dev
 ```
 ### Postman Collection
 To test the API endpoints, you can use Postman.
+4. ** Web browser:**
+### API EndPoint:
+
+a) **Retrieve a List of All Products:**
+    ```bash
+    /api/products
+    ```
+b)**Retrieve a Specific Product by ID:**
+    ```bash
+    /api/products/:productId
+    ```
+c)** Update Product Information:**
+    ```bash
+    /api/products/:productId
+    ```
+c)** Search a product:**
+    ```bash
+    /api/products?searchTerm=iphone
+    ```
+### Order Management
+a)** Retrieve All  Order:**
+    ```bash
+    /api/orders
+    ```
+b)** Retrieve Orders by User Email:**
+    ```bash
+    /api/orders?email="email"
+    ```
