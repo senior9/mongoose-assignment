@@ -77,20 +77,21 @@ To test the API endpoints, you can use Postman.
     ```bash
     /api/products/:productId
     ```
-3. ** Update Product Information:**
+3. **Update Product Information:**
     ```bash
     /api/products/:productId
     ```
-4. ** Search a product:**
+4. **Search a product:**
     ```bash
     /api/products?searchTerm=iphone
     ```
 ### Order Management
-1. ** Retrieve All  Order:**
+
+1. **Retrieve All  Order:**
     ```bash
     /api/orders
     ```
-2. ** Retrieve Orders by User Email:**
+2. **Retrieve Orders by User Email:**
     ```bash
     /api/orders?email="email"
     ```
